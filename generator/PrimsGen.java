@@ -22,20 +22,17 @@ public class PrimsGen {
 		this.grid = grid;
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
+		timer.addActionListener(e -> {
+			if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+				carve();
+			} else {
+				current = null;
+				Maze.generated = true;
+				timer.stop();
 			}
+			panel.setCurrent(current);
+			panel.repaint();
+			timer.setDelay(Maze.speed);
 		});
 		timer.start();
 	}

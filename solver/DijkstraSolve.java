@@ -2,10 +2,7 @@ package solver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 import javax.swing.Timer;
 
@@ -15,6 +12,7 @@ import util.Cell;
 public class DijkstraSolve {
 	
 	private final Queue<Cell> queue;
+
 	private Cell current;
 	private final List<Cell> grid;
 
@@ -57,10 +55,16 @@ public class DijkstraSolve {
 	}
 	
 	private void drawPath() {
+		System.out.println("X = " + grid.get(0).getX() + ", Y = " + grid.get(0).getY());
+		System.out.println("---------------------------------------------------------");
+		Cell.pathArray.add(grid.get(grid.size() - 1));
 		while (current != grid.get(0)) {
+			Cell.pathArray.add(current);
+			System.out.println("X = " + current.getX() + ", Y = " + current.getY());
 			current.setPath(true);
 			current = current.getParent();
 		}
+		Cell.pathArray.add(grid.get(0));
 	}
 	
 	private class CellDistanceFromGoalComparator implements Comparator<Cell> {

@@ -3,6 +3,7 @@ package util;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import main.Maze;
 
 public class Cell {
 
+	public static List<Cell> pathArray = new LinkedList<>();
 	private int x, y, distance, id;
 	
 	private Cell parent;
@@ -89,7 +91,14 @@ public class Cell {
 	public void setParent(Cell parent) {
 		this.parent = parent;
 	}
-	
+
+	public void drawShape(Shape shape, Graphics g) {
+		int x2 = x * Maze.W;
+		int y2 = y * Maze.W;
+
+		g.setColor(shape.getClolor());
+		g.fillRect(x2, y2, Maze.W, Maze.W);
+	}
 	public void draw(Graphics g) {
 		int x2 = x * Maze.W;
 	    int y2 = y * Maze.W;
@@ -99,15 +108,16 @@ public class Cell {
 	    	g.fillRect(x2, y2, Maze.W, Maze.W);
 	    }
 	   
-	    if (path) {
+	    /*if (path) {
 	    	g.setColor(Color.BLUE);
 	    	g.fillRect(x2, y2, Maze.W, Maze.W);
-	    } else if (deadEnd) {
+
+	    }*/ else if (deadEnd) {
 	    	g.setColor(Color.RED);
 	    	g.fillRect(x2, y2, Maze.W, Maze.W);
 	    }
 	    
-	    g.setColor(Color.WHITE);
+	    g.setColor(Color.CYAN);
 	    if (walls[0]) {
 	    	g.drawLine(x2, y2, x2+Maze.W, y2);
 	    }

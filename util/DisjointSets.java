@@ -19,7 +19,7 @@ public class DisjointSets {
 	private List<Map<Integer, Set<Integer>>> disjointSet;
 
 	public DisjointSets() {
-		disjointSet = new ArrayList<Map<Integer, Set<Integer>>>();
+		disjointSet = new ArrayList<>();
 	}
 
 	public void create_set(int element) {

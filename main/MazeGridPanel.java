@@ -11,133 +11,149 @@ import javax.swing.JPanel;
 import generator.*;
 import solver.*;
 import util.Cell;
+import util.Shape;
 
 public class MazeGridPanel extends JPanel {
 
-	private static final long serialVersionUID = 7237062514425122227L;
-	private final List<Cell> grid = new ArrayList<Cell>();
-	private List<Cell> currentCells = new ArrayList<Cell>();
+    private static final long serialVersionUID = 7237062514425122227L;
+    private final List<Cell> grid = new ArrayList<Cell>();
+    private List<Cell> currentCells = new ArrayList<Cell>();
 
-	public MazeGridPanel(int rows, int cols) {
-		for (int x = 0; x < rows; x++) {
-			for (int y = 0; y < cols; y++) {
-				grid.add(new Cell(x, y));
-			}
-		}
-	}
+    public MazeGridPanel(int rows, int cols) {
+        grid.add(new Cell(-1, 0));
+        for (int x = 0; x < rows; x++) {
+            for (int y = 0; y < cols; y++) {
+                grid.add(new Cell(x, y));
+            }
+        }
+        grid.add(new Cell(grid.get(grid.size() - 1).getX() + 1, grid.get(grid.size() - 1).getY()));
+    }
 
-	@Override
-	public Dimension getPreferredSize() {
-		// +1 pixel on width and height so bottom and right borders can be drawn.
-		return new Dimension(Maze.WIDTH + 1, Maze.HEIGHT + 1);
-	}
+    @Override
+    public Dimension getPreferredSize() {
+        // +1 pixel on width and height so bottom and right borders can be drawn.
+        return new Dimension(Maze.WIDTH + 1, Maze.HEIGHT + 1);
+    }
 
-	public void generate(int index) {
-		// switch statement for gen method read from combobox in Maze.java
-		switch (index) {
-		case 0:
-			new AldousBroderGen(grid, this);
-			break;
-		case 1:
-			new BinaryTreeGen(grid, this);
-			break;
-		case 2:
-			new DFSGen(grid, this);
-			break;
-		case 3:
-			new EllersGen(grid, this);
-			break;
-		case 4:
-			new GrowingForestGen(grid, this);
-			break;
-		case 5:
-			new GrowingTreeGen(grid, this);
-			break;
-		case 6:
-			new HoustonGen(grid, this);;
-			break;
-		case 7:
-			new HuntAndKillGen(grid, this);
-			break;
-		case 8:
-			new KruskalsGen(grid, this);;
-			break;
-		case 9:
-			new PrimsGen(grid, this);
-			break;
-		case 10:
-			new QuadDFSGen(grid, this);
-			break;
-		case 11:
-			new SidewinderGen(grid, this);
-			break;
-		case 12:
-			new SpiralBacktrackerGen(grid, this);
-			break;
-		case 13:
-			new WilsonsGen(grid, this);
-			break;
-		case 14:
-			new ZigZagGen(grid, this);
-			break;
-		default:
-			new GrowingTreeGen(grid, this);
-			break;
-		}
-	}
+    public void generate(int index) {
+        // switch statement for gen method read from combobox in Maze.java
+        switch (index) {
+            case 0:
+                new AldousBroderGen(grid, this);
+                break;
+            case 1:
+                new BinaryTreeGen(grid, this);
+                break;
+            case 2:
+                new DFSGen(grid, this);
+                break;
+            case 3:
+                new EllersGen(grid, this);
+                break;
+            case 4:
+                new GrowingForestGen(grid, this);
+                break;
+            case 5:
+                new GrowingTreeGen(grid, this);
+                break;
+            case 6:
+                new HoustonGen(grid, this);
+                ;
+                break;
+            case 7:
+                new HuntAndKillGen(grid, this);
+                break;
+            case 8:
+                new KruskalsGen(grid, this);
+                ;
+                break;
+            case 9:
+                new PrimsGen(grid, this);
+                break;
+            case 10:
+                new QuadDFSGen(grid, this);
+                break;
+            case 11:
+                new SidewinderGen(grid, this);
+                break;
+            case 12:
+                new SpiralBacktrackerGen(grid, this);
+                break;
+            case 13:
+                new WilsonsGen(grid, this);
+                break;
+            case 14:
+                new ZigZagGen(grid, this);
+                break;
+            default:
+                new GrowingTreeGen(grid, this);
+                break;
+        }
+    }
 
-	public void solve(int index) {
-		switch (index) {
-		case 0:
-			new BiDFSSolve(grid, this);
-			break;
-		case 1:
-			new BFSSolve(grid, this);
-			break;
-		case 2: 
-			new DFSSolve(grid, this);
-			break;
-		case 3:
-			new DijkstraSolve(grid, this);
-			break;
-		default:
-			new DijkstraSolve(grid, this);
-			break;
-		}
-	}
-	
-	public void resetSolution() {
-		for (Cell c : grid) {
-			c.setDeadEnd(false);
-			c.setPath(false);
-			c.setDistance(-1);
-			c.setParent(null);
-		}
-		repaint();
-	}
-	
-	public void setCurrent(Cell current) {
-		if(currentCells.size() == 0) {
-			currentCells.add(current);
-		} else {
-			currentCells.set(0, current);			
-		}
-	}
-	
-	public void setCurrentCells(List<Cell> currentCells) {
-		this.currentCells = currentCells;
-	}
+    public void solve(int index) {
+        switch (index) {
+            case 0:
+                new BiDFSSolve(grid, this);
+                break;
+            case 1:
+                new BFSSolve(grid, this);
+                break;
+            case 2:
+                new DFSSolve(grid, this);
+                break;
+            case 3:
+                new DijkstraSolve(grid, this);
+                break;
+            default:
+                new DijkstraSolve(grid, this);
+                break;
+        }
+    }
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		for (Cell c : grid) {
-			c.draw(g);
-		}
-		for (Cell c : currentCells) {
-			if(c != null) c.displayAsColor(g, Color.ORANGE);
-		}
-		grid.get(0).displayAsColor(g, Color.GREEN); // start cell
-		grid.get(grid.size() - 1).displayAsColor(g, Color.YELLOW); // end or goal cell
-	}
+    public void resetSolution() {
+        for (Cell c : grid) {
+            c.setDeadEnd(false);
+            c.setPath(false);
+            c.setDistance(-1);
+            c.setParent(null);
+        }
+        repaint();
+    }
+
+    public void setCurrent(Cell current) {
+        if (currentCells.size() == 0) {
+            currentCells.add(current);
+        } else {
+            currentCells.set(0, current);
+        }
+    }
+
+    public void setCurrentCells(List<Cell> currentCells) {
+        this.currentCells = currentCells;
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        for (Cell c : grid) {
+            c.draw(g);
+        }
+        for (Cell c : currentCells) {
+            if (c != null) c.displayAsColor(g, Color.ORANGE);
+        }
+        grid.get(0).displayAsColor(g, Color.GREEN); // start cell
+        grid.get(grid.size() - 1).displayAsColor(g, Color.WHITE); // end or goal cell
+
+        for (int i = 1; i < Cell.pathArray.size() - 1; i++) {
+            Cell prev = Cell.pathArray.get(i - 1);
+            Cell current = Cell.pathArray.get(i);
+            Cell next = Cell.pathArray.get(i + 1);
+
+            if ((prev.getX() != current.getX() || next.getX() != current.getX()) && (prev.getY() != current.getY() || next.getY() != current.getY()))
+                current.drawShape(Shape.ANGLE, g);
+            else
+                current.drawShape(Shape.LINE, g);
+        }
+    }
 }
