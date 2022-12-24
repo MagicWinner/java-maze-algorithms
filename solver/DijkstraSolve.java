@@ -18,25 +18,23 @@ public class DijkstraSolve {
 
 	public DijkstraSolve(List<Cell> grid, MazeGridPanel panel) {
 		this.grid = grid;
-		queue = new PriorityQueue<Cell>(new CellDistanceFromGoalComparator());
+		queue = new PriorityQueue<>(new CellDistanceFromGoalComparator());
 		current = grid.get(0);
 		current.setDistance(0);
 		queue.offer(current);
+
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!current.equals(grid.get(grid.size() - 1))) {
-					flood();
-				} else {
-					drawPath();
-					Maze.solved = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
+		timer.addActionListener(e -> {
+			if (!current.equals(grid.get(grid.size() - 1))) {
+				flood();
+			} else {
+				drawPath();
+				Maze.solved = true;
+				timer.stop();
 			}
+			panel.setCurrent(current);
+			panel.repaint();
+			timer.setDelay(Maze.speed);
 		});
 		timer.start();
 	}
@@ -55,12 +53,9 @@ public class DijkstraSolve {
 	}
 	
 	private void drawPath() {
-		System.out.println("X = " + grid.get(0).getX() + ", Y = " + grid.get(0).getY());
-		System.out.println("---------------------------------------------------------");
 		Cell.pathArray.add(grid.get(grid.size() - 1));
 		while (current != grid.get(0)) {
 			Cell.pathArray.add(current);
-			System.out.println("X = " + current.getX() + ", Y = " + current.getY());
 			current.setPath(true);
 			current = current.getParent();
 		}

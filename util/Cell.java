@@ -2,12 +2,15 @@ package util;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 import main.Maze;
+
+import javax.imageio.ImageIO;
 
 public class Cell {
 
@@ -97,22 +100,25 @@ public class Cell {
 		int y2 = y * Maze.W;
 
 		g.setColor(shape.getClolor());
-		g.fillRect(x2, y2, Maze.W, Maze.W);
+		//g.fillRect(x2, y2, Maze.W, Maze.W);
+		g.drawImage(Shape.ImageFactory.getImage(shape), x2, y2, Maze.W, Maze.W, null);
 	}
+
+
 	public void draw(Graphics g) {
 		int x2 = x * Maze.W;
 	    int y2 = y * Maze.W;
 	    
 	    if (visited) {
-	    	g.setColor(Color.MAGENTA);
-	    	g.fillRect(x2, y2, Maze.W, Maze.W);
+			g.setColor(Color.MAGENTA);
+			g.fillRect(x2, y2, Maze.W, Maze.W);
+
+			//System.out.println("Я вызываю сейчас draw#isVisited");
 	    }
 	   
-	    /*if (path) {
-	    	g.setColor(Color.BLUE);
-	    	g.fillRect(x2, y2, Maze.W, Maze.W);
-
-	    }*/ else if (deadEnd) {
+	    if (!path) {
+			//g.drawImage(Shape.ImageFactory.getImage(Shape.values()[new Random().nextInt(2)]), x2, y2, Maze.W, Maze.W, null);
+	    } else if (deadEnd) {
 	    	g.setColor(Color.RED);
 	    	g.fillRect(x2, y2, Maze.W, Maze.W);
 	    }

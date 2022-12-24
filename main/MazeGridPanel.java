@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -140,7 +141,9 @@ public class MazeGridPanel extends JPanel {
             c.draw(g);
         }
         for (Cell c : currentCells) {
-            if (c != null) c.displayAsColor(g, Color.ORANGE);
+            if (c != null) {
+                c.displayAsColor(g, Color.ORANGE);
+            }
         }
         grid.get(0).displayAsColor(g, Color.GREEN); // start cell
         grid.get(grid.size() - 1).displayAsColor(g, Color.WHITE); // end or goal cell
